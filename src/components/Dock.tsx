@@ -1,8 +1,11 @@
 import { useState } from 'react'
-import tinkerTool from '../assets/TinkerTool__Liquid_Glass__256x256x32.png'
-import previewImg from '../assets/Preview_256x256x32.png'
-import tinderImg  from '../assets/tinder_256x256x32.png'
-import emailImg   from '../assets/email_256x256x32.png'
+import aboutImg    from '../assets/aboutme_page_01.png'
+import experienceImg from '../assets/Cursor.png'
+import tinkerTool  from '../assets/TinkerTool__Liquid_Glass__256x256x32.png'
+import skillsImg   from '../assets/skills_256x256x32.png'
+import previewImg  from '../assets/Preview_256x256x32.png'
+import emailImg    from '../assets/email_256x256x32.png'
+import tinderImg   from '../assets/tinder_256x256x32.png'
 
 interface AppDef {
   id: string
@@ -13,10 +16,10 @@ interface AppDef {
 }
 
 const APPS: AppDef[] = [
-  { id: 'about',      icon: '👤', label: 'About Me',   bg: 'linear-gradient(135deg,#667eea,#764ba2)', img: null },
-  { id: 'experience', icon: '💼', label: 'Experience', bg: 'linear-gradient(135deg,#f59e0b,#ef4444)', img: null },
+  { id: 'about',      icon: null, label: 'About Me',   bg: null, img: aboutImg },
+  { id: 'experience', icon: null, label: 'Experience', bg: null, img: experienceImg },
   { id: 'projects',   icon: null, label: 'Projects',   bg: null, img: tinkerTool },
-  { id: 'skills',     icon: '⚡', label: 'Skills',     bg: 'linear-gradient(135deg,#8b5cf6,#6d28d9)', img: null },
+  { id: 'skills',     icon: null, label: 'Skills',     bg: null, img: skillsImg },
   { id: 'education',  icon: null, label: 'Education',  bg: null, img: previewImg },
 ]
 
