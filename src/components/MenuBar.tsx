@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useTheme } from '../context/ThemeContext'
+import logoSrc from '../assets/logo.svg'
 
 interface MenuItem {
   label?: string
@@ -134,14 +135,24 @@ export default function MenuBar({ onOpen, onHelp, onFeedback, onToggleCC, ccOpen
         color: textColor,
       }}
     >
-      {/* Apple / Portfolio logo */}
+      {/* Logo */}
       <span style={{
-        fontSize: 15, padding: '2px 8px', borderRadius: 4,
+        padding: '2px 8px', borderRadius: 4,
         cursor: 'default', transition: 'background 0.15s',
+        display: 'flex', alignItems: 'center',
       }}
         onMouseEnter={e => (e.currentTarget.style.background = hoverBg)}
         onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
-      >🍎</span>
+      >
+        <img
+          src={logoSrc}
+          alt="Logo"
+          style={{
+            width: 14, height: 14,
+            filter: isDark ? 'invert(1)' : 'invert(0)',
+          }}
+        />
+      </span>
       <span style={{
         fontWeight: 600, padding: '2px 8px', borderRadius: 4,
         cursor: 'default', transition: 'background 0.15s',
