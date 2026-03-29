@@ -4,30 +4,35 @@ export default function Window({
   id, title, children,
   initialPos, initialSize,
   isOpen, onClose, zIndex, onFocus
-}) {
-  const winRef   = useRef(null)
-  const [pos,    setPos]    = useState(initialPos)
-  const [size,   setSize]   = useState(initialSize)
-  const [closing,  setClosing]   = useState(false)
-  const [maximized,setMaximized] = useState(false)
-  const dragging     = useRef(false)
-  const dragOffset   = useRef({ x: 0, y: 0 })
-  const resizing     = useRef(false)
-  const resizeStart  = useRef({ x: 0, y: 0, w: 0, h: 0 })
+})
+{
+  const winRef = useRef(null)
+  const [pos, setPos] = useState(initialPos)
+  const [size, setSize] = useState(initialSize)
+  const [closing, setClosing] = useState(false)
+  const [maximized, setMaximized] = useState(false)
+  const dragging = useRef(false)
+  const dragOffset = useRef({ x: 0, y: 0 })
+  const resizing = useRef(false)
+  const resizeStart = useRef({ x: 0, y: 0, w: 0, h: 0 })
   // Save pre-maximise state so we can restore it
-  const savedState   = useRef({ pos: initialPos, size: initialSize })
+  const savedState = useRef({ pos: initialPos, size: initialSize })
 
-  const handleClose = () => {
+  const handleClose = () =>
+  {
     setMaximized(false)
     setClosing(true)
     setTimeout(() => { setClosing(false); onClose(id) }, 180)
   }
 
-  const handleMaximize = () => {
-    if (!maximized) {
+  const handleMaximize = () =>
+  {
+    if (!maximized)
+    {
       savedState.current = { pos, size }
       setMaximized(true)
-    } else {
+    } else
+    {
       setMaximized(false)
       setPos(savedState.current.pos)
       setSize(savedState.current.size)
@@ -35,7 +40,8 @@ export default function Window({
     onFocus(id)
   }
 
-  const onTitleMouseDown = useCallback((e) => {
+  const onTitleMouseDown = useCallback((e) =>
+  {
     if (e.target.dataset.btn) return
     if (maximized) return          // can't drag a maximised window
     dragging.current = true
@@ -44,7 +50,8 @@ export default function Window({
     e.preventDefault()
   }, [pos, id, onFocus, maximized])
 
-  const onResizeMouseDown = useCallback((e) => {
+  const onResizeMouseDown = useCallback((e) =>
+  {
     if (maximized) return
     resizing.current = true
     resizeStart.current = { x: e.clientX, y: e.clientY, w: size.w, h: size.h }
@@ -52,16 +59,20 @@ export default function Window({
     e.stopPropagation()
   }, [size, maximized])
 
-  useEffect(() => {
-    const onMove = (e) => {
-      if (dragging.current) {
+  useEffect(() =>
+  {
+    const onMove = (e) =>
+    {
+      if (dragging.current)
+      {
         let nx = e.clientX - dragOffset.current.x
         let ny = e.clientY - dragOffset.current.y
-        nx = Math.max(0, Math.min(nx, window.innerWidth  - (winRef.current?.offsetWidth  || 400)))
+        nx = Math.max(0, Math.min(nx, window.innerWidth - (winRef.current?.offsetWidth || 400)))
         ny = Math.max(28, Math.min(ny, window.innerHeight - 60))
         setPos({ x: nx, y: ny })
       }
-      if (resizing.current) {
+      if (resizing.current)
+      {
         const nw = Math.max(340, resizeStart.current.w + (e.clientX - resizeStart.current.x))
         const nh = Math.max(260, resizeStart.current.h + (e.clientY - resizeStart.current.y))
         setSize({ w: nw, h: nh })
@@ -69,7 +80,7 @@ export default function Window({
     }
     const onUp = () => { dragging.current = false; resizing.current = false }
     window.addEventListener('mousemove', onMove)
-    window.addEventListener('mouseup',   onUp)
+    window.addEventListener('mouseup', onUp)
     return () => { window.removeEventListener('mousemove', onMove); window.removeEventListener('mouseup', onUp) }
   }, [])
 
@@ -78,7 +89,7 @@ export default function Window({
   // Maximised geometry: full width, from below menu bar to just above dock
   const maxStyle = maximized ? {
     left: 0, top: 28,
-    width:  '100vw',
+    width: '100vw',
     height: 'calc(100vh - 28px - 72px)',
     borderRadius: 0,
     transition: 'left 0.22s, top 0.22s, width 0.22s, height 0.22s, border-radius 0.22s',
@@ -95,7 +106,7 @@ export default function Window({
       style={{
         ...maxStyle,
         zIndex,
-        opacity:   closing ? 0 : 1,
+        opacity: closing ? 0 : 1,
         transform: closing ? 'scale(0.9)' : 'scale(1)',
         ...(closing ? { transition: 'opacity 0.18s, transform 0.18s' } : {}),
       }}

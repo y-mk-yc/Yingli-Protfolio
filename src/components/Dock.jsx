@@ -2,32 +2,40 @@ import { useState } from 'react'
 import tinkerTool from '../assets/TinkerTool__Liquid_Glass__256x256x32.png'
 import previewImg from '../assets/Preview_256x256x32.png'
 import firefoxImg from '../assets/Firefox_256x256x32.png'
-import tinderImg  from '../assets/tinder_256x256x32.png'
-import emailImg   from '../assets/email_256x256x32.png'
+import tinderImg from '../assets/tinder_256x256x32.png'
+import skillsImg from '../assets/skills_256x256x32.png'
+import emailImg from '../assets/email_256x256x32.png'
+import projectsImg from '../assets/projects_page_01.png'
+import experienceImg from '../assets/Cursor.png'
+import educationImg from '../assets/education_page_01.png'
+import finderImg from '../assets/aboutme_page_01.png'
 
 const APPS = [
-  { id: 'about',      icon: '👤', label: 'About Me',   bg: 'linear-gradient(135deg,#667eea,#764ba2)', img: null },
-  { id: 'experience', icon: '💼', label: 'Experience', bg: 'linear-gradient(135deg,#f59e0b,#ef4444)', img: null },
-  { id: 'projects',   icon: null, label: 'Projects',   bg: null, img: tinkerTool },
-  { id: 'skills',     icon: '⚡', label: 'Skills',     bg: 'linear-gradient(135deg,#8b5cf6,#6d28d9)', img: null },
-  { id: 'education',  icon: null, label: 'Education',  bg: null, img: previewImg },
+  { id: 'about', icon: '👤', label: 'About Me', bg: 'linear-gradient(135deg,#667eea,#764ba2)', img: finderImg },
+  { id: 'experience', icon: '💼', label: 'Experience', bg: 'linear-gradient(135deg,#f59e0b,#ef4444)', img: experienceImg },
+  { id: 'projects', icon: null, label: 'Projects', bg: null, img: projectsImg },
+  { id: 'skills', icon: '⚡', label: 'Skills', bg: 'linear-gradient(135deg,#8b5cf6,#6d28d9)', img: skillsImg },
+  { id: 'education', icon: null, label: 'Education', bg: null, img: educationImg },
 ]
 
 const UTILITY = [
-  { id: 'contact', icon: null, label: 'Contact', bg: null, img: emailImg  },
-  { id: 'tinder',  icon: null, label: 'Tinder',  bg: null, img: tinderImg },
+  { id: 'contact', icon: null, label: 'Contact', bg: null, img: emailImg },
+  { id: 'tinder', icon: null, label: 'Tinder', bg: null, img: tinderImg },
 ]
 
-export default function Dock({ openWindows, onOpen }) {
+export default function Dock({ openWindows, onOpen })
+{
   const [bouncing, setBouncing] = useState(null)
 
-  const handleClick = (id) => {
+  const handleClick = (id) =>
+  {
     setBouncing(id)
     setTimeout(() => setBouncing(null), 550)
     onOpen(id)
   }
 
-  const DockIcon = ({ app }) => {
+  const DockIcon = ({ app }) =>
+  {
     const isOpen = openWindows.has(app.id)
     return (
       <div
@@ -35,7 +43,7 @@ export default function Dock({ openWindows, onOpen }) {
         onClick={() => handleClick(app.id)}
       >
         {/* Tooltip */}
-        <div className="absolute bottom-full mb-2 bg-black/80 text-white text-xs
+        <div className="absolute bottom-full mb-8 bg-black/80 text-white text-xs
                         px-2.5 py-1 rounded-md whitespace-nowrap
                         opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none
                         backdrop-blur-md border border-white/10">
