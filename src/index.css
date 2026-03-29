@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  width: 100vw;
+  height: 100vh;
+}
+
+/* Aurora shimmer overlay */
+@keyframes aurora {
+  0%   { filter: hue-rotate(0deg) brightness(1); }
+  100% { filter: hue-rotate(30deg) brightness(1.1); }
+}
+
+/* Window open */
+@keyframes windowOpen {
+  from { opacity: 0; transform: scale(0.88); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Dock icon bounce */
+@keyframes dockBounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  30%      { transform: translateY(-20px) scale(1.1); }
+  60%      { transform: translateY(-8px) scale(1.05); }
+}
+
+.animate-window-open  { animation: windowOpen 0.28s cubic-bezier(0.34,1.56,0.64,1); }
+.animate-dock-bounce  { animation: dockBounce 0.55s ease; }
+
+.aurora-layer {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 55% at 18% 38%, rgba(140,60,255,0.32) 0%, transparent 60%),
+    radial-gradient(ellipse 65% 70% at 78% 18%, rgba(70,60,255,0.22) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 45% at 52% 82%, rgba(110,50,230,0.2) 0%, transparent 60%);
+  animation: aurora 12s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+/* Music bars in menu bar */
+@keyframes barBounce1 { from { height: 4px;  } to { height: 10px; } }
+@keyframes barBounce2 { from { height: 10px; } to { height: 4px;  } }
+@keyframes barBounce3 { from { height: 6px;  } to { height: 12px; } }
+
+/* Control Center open */
+@keyframes ccOpen {
+  from { opacity: 0; transform: scale(0.92) translateY(-8px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0); }
+}
+
+/* Scrollbar */
+.mac-scroll::-webkit-scrollbar       { width: 6px; }
+.mac-scroll::-webkit-scrollbar-track { background: transparent; }
+.mac-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.18); border-radius: 3px; }
+
+/* Skill bar */
+.skill-fill {
+  transition: transform 0.8s cubic-bezier(0.4,0,0.2,1);
+  transform-origin: left;
+  transform: scaleX(0);
+}
+.skill-fill.animated { transform: scaleX(var(--pct)); }
