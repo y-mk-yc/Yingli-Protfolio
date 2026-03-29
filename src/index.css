@@ -65,8 +65,22 @@ body {
 
 /* Skill bar */
 .skill-fill {
-  transition: transform 0.8s cubic-bezier(0.4,0,0.2,1);
-  transform-origin: left;
-  transform: scaleX(0);
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.85s cubic-bezier(0.4,0,0.2,1);
+  width: 0;
 }
-.skill-fill.animated { transform: scaleX(var(--pct)); }
+.skill-fill.animated { width: calc(var(--pct) * 100%); }
+
+/* Loading screen logo float */
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-8px); }
+}
+
+/* Pulse (used in experience timeline) */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+.animate-pulse { animation: pulse 2s ease-in-out infinite; }

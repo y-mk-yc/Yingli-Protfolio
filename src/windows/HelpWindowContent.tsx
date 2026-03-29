@@ -1,18 +1,20 @@
+import { useWindowColors } from '../context/ThemeContext'
+
 const sections = [
   {
     icon: '🖱',
     title: 'Open Sections',
     items: [
       'Click any icon in the Dock at the bottom',
-      'Click the desktop icons on the right side',
       'Use the Window menu in the top menu bar',
+      'Type in Spotlight Search (centre of the screen)',
     ],
   },
   {
     icon: '🔍',
     title: 'Spotlight Search',
     items: [
-      'Click the search bar (center) and type a section name',
+      'Click the search bar (centre) and type a section name',
       'Press Enter or click a result to open it',
       'Type "feedback" → open the feedback form',
       'Type "matrix" → surprise easter egg 🕹',
@@ -54,37 +56,40 @@ const sections = [
 ]
 
 export default function HelpWindowContent() {
+  const { text, textDim, textFaint, surface, border } = useWindowColors()
+
   return (
     <div>
       {/* Header */}
-      <div className="flex items-center gap-3 mb-6">
-        <div className="w-11 h-11 rounded-xl flex-shrink-0 flex items-center justify-center text-2xl
-                        bg-gradient-to-br from-blue-400 to-indigo-600
-                        shadow-[0_4px_14px_rgba(59,130,246,0.45)]">
-          ❓
-        </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24 }}>
+        <div style={{
+          width: 44, height: 44, borderRadius: 12, flexShrink: 0,
+          display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22,
+          background: 'linear-gradient(135deg, #60a5fa, #4f46e5)',
+          boxShadow: '0 4px 14px rgba(59,130,246,0.45)',
+        }}>❓</div>
         <div>
-          <div className="text-[22px] font-bold text-white leading-none">Portfolio Help</div>
-          <div className="text-[13px] text-white/45 mt-0.5">Everything you need to navigate</div>
+          <div style={{ fontSize: 22, fontWeight: 700, color: text, lineHeight: 1 }}>Portfolio Help</div>
+          <div style={{ fontSize: 13, color: textFaint, marginTop: 3 }}>Everything you need to navigate</div>
         </div>
       </div>
 
-      <p className="text-[13.5px] text-white/55 leading-relaxed mb-6">
+      <p style={{ fontSize: 13.5, color: textDim, lineHeight: 1.6, marginBottom: 24 }}>
         This is an interactive macOS-style portfolio. Here's a quick guide to everything you can do.
       </p>
 
       {/* Sections */}
-      <div className="flex flex-col gap-5">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
         {sections.map(sec => (
           <div key={sec.title}>
-            <div className="flex items-center gap-2 mb-2.5">
-              <span className="text-[18px]">{sec.icon}</span>
-              <span className="text-[13.5px] font-semibold text-white">{sec.title}</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+              <span style={{ fontSize: 18 }}>{sec.icon}</span>
+              <span style={{ fontSize: 13.5, fontWeight: 600, color: text }}>{sec.title}</span>
             </div>
-            <ul className="flex flex-col gap-1.5 ml-7">
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, paddingLeft: 28, display: 'flex', flexDirection: 'column', gap: 6 }}>
               {sec.items.map((item, i) => (
-                <li key={i} className="flex gap-2 text-[12.5px] text-white/60 leading-relaxed">
-                  <span className="text-white/25 flex-shrink-0">•</span>
+                <li key={i} style={{ display: 'flex', gap: 8, fontSize: 12.5, color: textDim, lineHeight: 1.6 }}>
+                  <span style={{ color: textFaint, flexShrink: 0 }}>•</span>
                   <span>{item}</span>
                 </li>
               ))}
@@ -94,9 +99,12 @@ export default function HelpWindowContent() {
       </div>
 
       {/* Tip box */}
-      <div className="mt-6 bg-[rgba(99,160,255,0.08)] border border-[rgba(99,160,255,0.22)]
-                      rounded-xl px-4 py-3 text-[12.5px] text-white/65 leading-relaxed">
-        💡 <strong className="text-[rgba(99,160,255,0.9)]">Pro tip:</strong>{' '}
+      <div style={{
+        marginTop: 24,
+        background: 'rgba(99,160,255,0.08)', border: '1px solid rgba(99,160,255,0.22)',
+        borderRadius: 12, padding: '12px 16px', fontSize: 12.5, color: textDim, lineHeight: 1.6,
+      }}>
+        💡 <strong style={{ color: 'rgba(99,160,255,0.9)' }}>Pro tip:</strong>{' '}
         This window is draggable and resizable — grab the title bar to move it, or drag the bottom-right corner to resize.
       </div>
     </div>
