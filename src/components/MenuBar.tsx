@@ -148,7 +148,7 @@ export default function MenuBar({ onOpen, onHelp, onFeedback, onToggleCC, ccOpen
           src={logoSrc}
           alt="Logo"
           style={{
-            width: 14, height: 14,
+            width: 20, height: 20,
             filter: isDark ? 'invert(1)' : 'invert(0)',
           }}
         />
