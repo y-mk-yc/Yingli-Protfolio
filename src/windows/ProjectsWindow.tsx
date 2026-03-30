@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { useWindowColors } from '../context/ThemeContext'
+import rehabVideo from '../assets/3月30日.mp4'
 
-interface Publication {
+interface Publication
+{
   id: string; title: string; authors: string[]
   venue: string; publisher: string; year: string
   location: string; abstract: string; tags: string[]
@@ -9,9 +11,11 @@ interface Publication {
   type: string; color: string; emoji: string
 }
 
-interface Project {
+interface Project
+{
   title: string; emoji: string; gradient: string
-  desc: string; details: string; tags: string[]
+  desc: string; details: string
+  stack: Record<string, string[]>
   github: string; live: string; video: string
   year: string; status: 'Live' | 'Open Source' | 'Beta'
 }
@@ -45,49 +49,76 @@ const publications: Publication[] = [
 
 const projects: Project[] = [
   {
-    title: 'ShopFlow — E-Commerce Platform', emoji: '🛍',
-    gradient: 'from-[#0f4c75] to-[#1b262c]',
-    desc: 'Full-stack marketplace with real-time inventory, Stripe checkout, and an ML recommendation engine.',
-    details: 'Built with a microservices architecture, ShopFlow handles everything from product catalogues to real-time stock updates via WebSockets. The recommendation engine analyses browsing history and purchase patterns using collaborative filtering trained on 500k+ transactions.',
-    tags: ['Next.js', 'Node.js', 'PostgreSQL', 'Redis', 'Stripe', 'ML'],
-    github: 'https://github.com', live: 'https://example.com', video: '', year: '2024', status: 'Live',
+    title: 'ReHyb — Human Digital Twin Rehab System',
+    emoji: '🦾',
+    gradient: 'from-[#1e1b4b] to-[#0f0f23]',
+    desc: 'MSc thesis at DTU — integrated stroke hand rehabilitation platform built around a rigged 3D Human Digital Twin hand model, a Flutter mobile app for patients and caregivers, and an enhanced therapist dashboard.',
+    details: 'Problem: No existing system combined at-home stroke hand rehabilitation, Human Digital Twin (HDT) technology, and seamless communication across therapists, patients, and caregivers. Rehabilitation was therapist-dependent, subjective, and siloed. Solution: Three frontends backed by a Node.js microservices architecture. The centerpiece is a rigged 3D hand HDT modelled in Blender — joint rotation visualises range of motion, colour-coding indicates severity — giving therapists a real-time objective view of each patient\'s hand condition remotely. The Flutter mobile app (iOS/Android) guides patients through prescribed rehabilitation sessions at home and lets caregivers monitor progress. The React/TypeScript therapist dashboard was redesigned for clinical usability: therapists set goals, review per-session metrics (ROM, movement precision & speed, finger coordination, finger independence, pain location), and communicate with patients via Socket.IO real-time messaging. The backend evolved from a monolith to microservices (Node.js + MongoDB + RabbitMQ), with a facade API gateway pattern separating new services cleanly. Methodology: Agile/Scrum with two rounds of user testing — first with student participants, then professional therapists — each driving an iteration of improvements. Results: User testing confirmed the HDT approach was effective for remote monitoring; measurable usability improvements were recorded across both iterations, and therapist feedback validated the clinical relevance of the chosen metrics.',
+    stack: {
+      'Backend': ['Node.js', 'Express', 'MongoDB', 'RabbitMQ', 'Socket.IO', 'Microservices'],
+      'Web Front': ['React', 'TypeScript', 'Vue.js', 'Tailwind CSS', 'Vite'],
+      'Mobile': ['Flutter', 'Dart'],
+      '3D': ['Blender', 'Three.js'],
+      'Infra': ['AWS', 'Docker'],
+    },
+    github: '', live: '', video: rehabVideo, year: '2025', status: 'Live',
   },
   {
-    title: 'DataViz Studio', emoji: '📊',
-    gradient: 'from-[#1a1a2e] to-[#16213e]',
-    desc: 'Drag-and-drop dashboard builder that renders millions of rows via WebGL with real-time interaction.',
-    details: 'DataViz Studio empowers analysts to create complex interactive dashboards without code. The rendering engine uses WebGL via regl to stream and render 10M+ rows in real time.',
-    tags: ['React', 'D3.js', 'WebGL', 'Python', 'FastAPI'],
-    github: 'https://github.com', live: 'https://example.com', video: '', year: '2023', status: 'Live',
+    title: 'Quote Generator — AWS Amplify Fullstack',
+    emoji: '💬',
+    gradient: 'from-[#0f3460] to-[#16213e]',
+    desc: 'Serverless fullstack quote generator with a glassmorphic UI — Next.js frontend deployed on AWS Amplify, backed by AppSync GraphQL, DynamoDB, Lambda, and Cognito auth.',
+    details: 'The frontend is a Next.js + React app styled with Material-UI and styled-components, featuring glassmorphism design, Lottie animations, and curated gradient backgrounds. On the backend, AWS AppSync exposes a GraphQL API that Lambda resolvers fulfil, with quote data stored in DynamoDB. AWS Cognito handles user authentication and session management. The entire infrastructure is defined as code via CloudFormation and deployed through the Amplify CI/CD pipeline. Jimp and svg2png handle server-side image processing for quote card generation.',
+    stack: {
+      'Backend': ['AWS Lambda', 'AppSync', 'DynamoDB', 'Cognito', 'GraphQL', 'CloudFormation'],
+      'Web Front': ['Next.js', 'React', 'TypeScript', 'Material-UI', 'Styled-components'],
+      'Infra': ['AWS Amplify', 'CloudWatch', 'CI/CD'],
+    },
+    github: 'https://github.com/y-mk-yc/Quote-generator-aws-amplify-fullstack',
+    live: 'https://prod.d2juflcim1k4x.amplifyapp.com/',
+    video: '', year: '2024', status: 'Live',
   },
   {
-    title: 'CoSync — Real-time Collab App', emoji: '🤝',
-    gradient: 'from-[#0d3b2e] to-[#1a1a2e]',
-    desc: 'Google-Docs-style collaborative editor using CRDTs, WebRTC presence, and offline-first sync.',
-    details: 'CoSync implements Yjs CRDTs for conflict-free distributed state and WebRTC for peer-to-peer awareness channels. The offline-first architecture queues changes in IndexedDB and replays on reconnect.',
-    tags: ['TypeScript', 'WebSocket', 'WebRTC', 'CRDT', 'SQLite'],
-    github: 'https://github.com', live: '', video: '', year: '2023', status: 'Open Source',
+    title: 'IoT Vulnerability Analysis',
+    emoji: '🔍',
+    gradient: 'from-[#1a0a2e] to-[#0d1117]',
+    desc: 'Security research tool that harvests CVE/CWE vulnerability data from NVD and WiGLE APIs, then analyses and visualises Bluetooth and WiFi exposure patterns across real-world IoT device vendors.',
+    details: 'Six Jupyter notebooks form the pipeline: three collection notebooks pull live data from the CVE API, WiGLE API (real-world WiFi scan database), and OpenCVE, storing results in a local database. Two analysis notebooks (Analyse_BT.ipynb, Analyse_WiFi.ipynb) cross-reference device vendor identifiers with CVE records to score risk by vendor and protocol. extract_cwe_tag.ipynb categorises weaknesses using the CWE taxonomy. Outputs include severity distribution heatmaps, vendor risk rankings, and vulnerability type breakdowns — all exported as PNG charts and PDF reports. Research conducted as part of the MSc Computer Security programme at DTU.',
+    stack: {
+      'Language': ['Python'],
+      'Analysis': ['Jupyter', 'Pandas', 'NumPy', 'Matplotlib'],
+      'APIs': ['CVE API', 'WiGLE API', 'OpenCVE', 'NVD'],
+      'Security': ['CWE Taxonomy', 'IoT Security', 'Bluetooth', 'WiFi'],
+    },
+    github: 'https://github.com/y-mk-yc/Vulnerabilities_IOT_data_analyse',
+    live: '', video: '', year: '2024', status: 'Open Source',
   },
   {
-    title: 'OpenRoute — AI Travel Planner', emoji: '🌐',
-    gradient: 'from-[#2d1b5a] to-[#0d1347]',
-    desc: 'AI itinerary planner chaining Google Maps, flight APIs and a local LLM for personalised plans in <3s.',
-    details: 'OpenRoute chains Skyscanner, Google Maps, and OpenWeather APIs and feeds aggregated data to a locally-hosted Mistral 7B model. Achieved sub-3-second plan generation via prompt caching and async fetching.',
-    tags: ['React Native', 'Go', 'LLM', 'Maps API', 'Mistral'],
-    github: 'https://github.com', live: 'https://example.com',
-    video: 'https://www.youtube.com/embed/dQw4w9WgXcQ', year: '2024', status: 'Beta',
+    title: 'ChatGPT Clone — Laravel & Vue',
+    emoji: '🤖',
+    gradient: 'from-[#064e3b] to-[#022c22]',
+    desc: 'Full-stack ChatGPT-inspired AI chat interface — Laravel MVC backend with Eloquent ORM and auth, Vue.js SPA frontend styled with Tailwind CSS.',
+    details: 'Laravel handles routing, middleware-based authentication, session and cookie management, and database migrations for persistent conversation history via Eloquent ORM. The Vue.js frontend is a reactive SPA bundled with Vite, delivering a chat UI that mirrors the ChatGPT experience. TypeScript is configured throughout the frontend. PHPUnit covers backend test cases and Composer manages PHP dependencies alongside NPM for the frontend toolchain.',
+    stack: {
+      'Backend': ['Laravel', 'PHP', 'MySQL', 'Eloquent ORM'],
+      'Web Front': ['Vue.js', 'TypeScript', 'Tailwind CSS', 'Vite'],
+      'Testing': ['PHPUnit'],
+    },
+    github: 'https://github.com/y-mk-yc/chatgpt_clone_lavarel_vue',
+    live: '', video: '', year: '2024', status: 'Open Source',
   },
 ]
 
 const STATUS_STYLE = {
-  'Live':        { bg: 'rgba(42,200,64,0.15)',  text: '#2ac840', border: 'rgba(42,200,64,0.3)' },
+  'Live': { bg: 'rgba(42,200,64,0.15)', text: '#2ac840', border: 'rgba(42,200,64,0.3)' },
   'Open Source': { bg: 'rgba(99,160,255,0.15)', text: '#63a0ff', border: 'rgba(99,160,255,0.3)' },
-  'Beta':        { bg: 'rgba(254,188,46,0.15)', text: '#febc2e', border: 'rgba(254,188,46,0.3)' },
+  'Beta': { bg: 'rgba(254,188,46,0.15)', text: '#febc2e', border: 'rgba(254,188,46,0.3)' },
 }
 
-function PubCard({ pub }: { pub: Publication }) {
+function PubCard({ pub }: { pub: Publication })
+{
   const [expanded, setExpanded] = useState(false)
-  const { text, textDim, textFaint, surface, border } = useWindowColors()
+  const { isDark, text, textDim, textFaint, surface, border } = useWindowColors()
   return (
     <div style={{ background: surface, border: `1px solid ${border}`, borderRadius: 12, overflow: 'hidden' }}>
       <div className={`w-full bg-gradient-to-br ${pub.color}`}
@@ -129,7 +160,7 @@ function PubCard({ pub }: { pub: Publication }) {
         {expanded && (
           <p style={{ fontSize: 12.5, color: textDim, lineHeight: 1.65, margin: '0 0 10px' }}>{pub.abstract}</p>
         )}
-        <div style={{ display: 'flex', gap: 8, paddingTop: 10, borderTop: `1px solid rgba(255,255,255,0.07)` }}>
+        <div style={{ display: 'flex', gap: 8, paddingTop: 10, borderTop: `1px solid ${isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)'}` }}>
           <a href={pub.doi} target="_blank" rel="noopener noreferrer" style={{
             display: 'flex', alignItems: 'center', gap: 5,
             background: 'linear-gradient(135deg,rgba(59,124,246,0.25),rgba(109,76,246,0.25))',
@@ -137,15 +168,16 @@ function PubCard({ pub }: { pub: Publication }) {
             color: '#63a0ff', fontSize: 12, fontWeight: 600, textDecoration: 'none',
           }}>
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-              <polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/>
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+              <polyline points="15,3 21,3 21,9" /><line x1="10" y1="14" x2="21" y2="3" />
             </svg>
             Read Paper
           </a>
           {pub.researchgate && (
             <a href={pub.researchgate} target="_blank" rel="noopener noreferrer" style={{
               display: 'flex', alignItems: 'center', gap: 5,
-              background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.14)',
+              background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)',
+              border: `1px solid ${isDark ? 'rgba(255,255,255,0.14)' : 'rgba(0,0,0,0.10)'}`,
               borderRadius: 8, padding: '6px 14px',
               color: textDim, fontSize: 12, fontWeight: 500, textDecoration: 'none',
             }}>ResearchGate</a>
@@ -156,54 +188,62 @@ function PubCard({ pub }: { pub: Publication }) {
   )
 }
 
-function ProjectDetail({ p, onClose }: { p: Project; onClose: () => void }) {
+function ProjectDetail({ p, onClose }: { p: Project; onClose: () => void })
+{
   const sc = STATUS_STYLE[p.status]
+  const { isDark, text, textDim, textFaint, divider } = useWindowColors()
+  const detailBg = isDark ? 'rgba(18,14,32,0.98)' : 'rgba(248,248,252,0.99)'
+  const backBg = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.05)'
+  const backBorder = isDark ? 'rgba(255,255,255,0.13)' : 'rgba(0,0,0,0.10)'
+  const githubBg = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)'
+  const githubBorder = isDark ? 'rgba(255,255,255,0.14)' : 'rgba(0,0,0,0.12)'
   return (
     <div className="mac-scroll" style={{
       position: 'absolute', inset: 0, zIndex: 20,
-      background: 'rgba(18,14,32,0.98)', backdropFilter: 'blur(12px)',
+      background: detailBg, backdropFilter: 'blur(12px)',
       borderRadius: 'inherit', overflowY: 'auto', padding: '20px 24px',
     }}>
       <button onClick={onClose} style={{
-        background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.13)',
-        borderRadius: 8, padding: '5px 12px', color: 'rgba(255,255,255,0.65)',
+        background: backBg, border: `1px solid ${backBorder}`,
+        borderRadius: 8, padding: '5px 12px', color: textFaint,
         fontSize: 12.5, cursor: 'pointer', fontFamily: 'inherit',
         display: 'inline-flex', alignItems: 'center', gap: 5, marginBottom: 18,
       }}>← Back</button>
       <div className={`w-full bg-gradient-to-br ${p.gradient}`}
-        style={{ height: 110, borderRadius: 12, marginBottom: 20, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 48, border: '1px solid rgba(255,255,255,0.1)' }}>
+        style={{ height: 110, borderRadius: 12, marginBottom: 20, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 48, border: `1px solid ${divider}` }}>
         {p.emoji}
       </div>
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12, marginBottom: 10 }}>
-        <h2 style={{ fontSize: 18, fontWeight: 700, color: 'white', margin: 0, lineHeight: 1.3 }}>{p.title}</h2>
+        <h2 style={{ fontSize: 18, fontWeight: 700, color: text, margin: 0, lineHeight: 1.3 }}>{p.title}</h2>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
           <span style={{ fontSize: 10.5, fontWeight: 600, padding: '2px 8px', borderRadius: 99, background: sc.bg, color: sc.text, border: `1px solid ${sc.border}` }}>{p.status}</span>
-          <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>{p.year}</span>
+          <span style={{ fontSize: 11, color: textFaint }}>{p.year}</span>
         </div>
       </div>
-      <p style={{ fontSize: 13.5, color: 'rgba(255,255,255,0.58)', lineHeight: 1.65, marginBottom: 16 }}>{p.desc}</p>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 20 }}>
-        {p.tags.map(t => (
-          <span key={t} style={{ background: 'rgba(251,191,36,0.1)', border: '1px solid rgba(251,191,36,0.28)', color: '#fbbf24', borderRadius: 6, padding: '3px 9px', fontSize: 11.5, fontWeight: 500 }}>{t}</span>
+      <p style={{ fontSize: 13.5, color: textDim, lineHeight: 1.65, marginBottom: 16 }}>{p.desc}</p>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 20 }}>
+        {Object.entries(p.stack).map(([cat, techs]) => (
+          <div key={cat} style={{ display: 'flex', gap: 8, alignItems: 'baseline', flexWrap: 'wrap' }}>
+            <span style={{ fontSize: 10, fontWeight: 700, color: textFaint, textTransform: 'uppercase', letterSpacing: '0.6px', flexShrink: 0, width: 72 }}>{cat}</span>
+            <span style={{ fontSize: 12, color: textDim }}>{techs.join(' · ')}</span>
+          </div>
         ))}
       </div>
-      <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', marginBottom: 16 }} />
-      <div style={{ fontSize: 10.5, fontWeight: 600, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.7px', marginBottom: 8 }}>Deep Dive</div>
-      <p style={{ fontSize: 13.5, color: 'rgba(255,255,255,0.72)', lineHeight: 1.7, marginBottom: 20 }}>{p.details}</p>
+      <div style={{ borderTop: `1px solid ${divider}`, marginBottom: 16 }} />
+      <div style={{ fontSize: 10.5, fontWeight: 600, color: textFaint, textTransform: 'uppercase', letterSpacing: '0.7px', marginBottom: 8 }}>Deep Dive</div>
+      <p style={{ fontSize: 13.5, color: textDim, lineHeight: 1.7, marginBottom: 20 }}>{p.details}</p>
       {p.video && (
         <div style={{ marginBottom: 20 }}>
-          <div style={{ fontSize: 10.5, fontWeight: 600, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.7px', marginBottom: 8 }}>Demo Video</div>
+          <div style={{ fontSize: 10.5, fontWeight: 600, color: textFaint, textTransform: 'uppercase', letterSpacing: '0.7px', marginBottom: 8 }}>Demo Video</div>
           <div style={{ borderRadius: 10, overflow: 'hidden', aspectRatio: '16/9' }}>
-            <iframe src={p.video} style={{ width: '100%', height: '100%', border: 'none' }}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen title={`${p.title} demo`} />
+            <video src={p.video} controls style={{ width: '100%', height: '100%', display: 'block' }} />
           </div>
         </div>
       )}
       <div style={{ display: 'flex', gap: 10 }}>
         {p.github && (
           <a href={p.github} target="_blank" rel="noopener noreferrer"
-            style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12.5, fontWeight: 500, color: 'rgba(255,255,255,0.7)', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.14)', borderRadius: 9, padding: '8px 16px', textDecoration: 'none' }}>
+            style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12.5, fontWeight: 500, color: textDim, background: githubBg, border: `1px solid ${githubBorder}`, borderRadius: 9, padding: '8px 16px', textDecoration: 'none' }}>
             GitHub
           </a>
         )}
@@ -218,7 +258,8 @@ function ProjectDetail({ p, onClose }: { p: Project; onClose: () => void }) {
   )
 }
 
-function ProjectCard({ p, onClick }: { p: Project; onClick: () => void }) {
+function ProjectCard({ p, onClick }: { p: Project; onClick: () => void })
+{
   const sc = STATUS_STYLE[p.status]
   const { text, textDim, textFaint, surface, border } = useWindowColors()
   return (
@@ -238,9 +279,12 @@ function ProjectCard({ p, onClick }: { p: Project; onClick: () => void }) {
           </div>
         </div>
         <p style={{ fontSize: 12.5, color: textDim, lineHeight: 1.5, marginBottom: 10 }}>{p.desc}</p>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 10 }}>
-          {p.tags.map(t => (
-            <span key={t} style={{ background: 'rgba(251,191,36,0.1)', border: '1px solid rgba(251,191,36,0.22)', color: '#d97706', borderRadius: 4, padding: '2px 7px', fontSize: 10.5, fontWeight: 500 }}>{t}</span>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginBottom: 10 }}>
+          {Object.entries(p.stack).map(([cat, techs]) => (
+            <div key={cat} style={{ display: 'flex', gap: 6, alignItems: 'baseline', flexWrap: 'wrap' }}>
+              <span style={{ fontSize: 9.5, fontWeight: 700, color: textFaint, textTransform: 'uppercase', letterSpacing: '0.5px', flexShrink: 0, width: 62 }}>{cat}</span>
+              <span style={{ fontSize: 11, color: textDim }}>{techs.join(' · ')}</span>
+            </div>
           ))}
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16, paddingTop: 8, borderTop: `1px solid ${border}` }}>
@@ -259,26 +303,16 @@ function ProjectCard({ p, onClick }: { p: Project; onClick: () => void }) {
   )
 }
 
-export default function ProjectsWindow() {
-  const [tab, setTab] = useState<'projects' | 'publications'>('projects')
+export default function ProjectsWindow()
+{
   const [selected, setSelected] = useState<Project | null>(null)
   const { text, textFaint } = useWindowColors()
-
-  const tabStyle = (id: string): React.CSSProperties => ({
-    background: tab === id ? 'rgba(99,160,255,0.18)' : 'transparent',
-    border: tab === id ? '1px solid rgba(99,160,255,0.35)' : '1px solid transparent',
-    borderRadius: 8, padding: '5px 14px',
-    color: tab === id ? '#63a0ff' : textFaint,
-    fontSize: 12.5, fontWeight: tab === id ? 600 : 400,
-    cursor: 'pointer', fontFamily: 'inherit',
-    display: 'flex', alignItems: 'center', gap: 6, transition: 'all 0.15s',
-  })
 
   return (
     <div style={{ position: 'relative', minHeight: '100%' }}>
       <div style={{ opacity: selected ? 0 : 1, pointerEvents: selected ? 'none' : 'auto', transition: 'opacity 0.12s' }}>
         {/* Header */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24 }}>
           <div style={{
             width: 44, height: 44, borderRadius: 12, flexShrink: 0,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -286,7 +320,7 @@ export default function ProjectsWindow() {
             boxShadow: '0 4px 14px rgba(251,191,36,0.45)',
           }}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
             </svg>
           </div>
           <div>
@@ -295,37 +329,32 @@ export default function ProjectsWindow() {
           </div>
         </div>
 
-        {/* Tabs */}
-        <div style={{ display: 'flex', gap: 6, marginBottom: 20 }}>
-          <button style={tabStyle('projects')} onClick={() => { setTab('projects'); setSelected(null) }}>
-            🚀 Projects <span style={{ background: tab === 'projects' ? 'rgba(99,160,255,0.25)' : 'rgba(255,255,255,0.1)', color: tab === 'projects' ? '#63a0ff' : textFaint, borderRadius: 99, padding: '0 6px', fontSize: 10.5, fontWeight: 600 }}>{projects.length}</span>
-          </button>
-          <button style={tabStyle('publications')} onClick={() => { setTab('publications'); setSelected(null) }}>
-            📄 Publications <span style={{ background: tab === 'publications' ? 'rgba(99,160,255,0.25)' : 'rgba(255,255,255,0.1)', color: tab === 'publications' ? '#63a0ff' : textFaint, borderRadius: 99, padding: '0 6px', fontSize: 10.5, fontWeight: 600 }}>{publications.length}</span>
-          </button>
+        {/* Projects */}
+        <div style={{ fontSize: 11, fontWeight: 600, color: textFaint, textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: 12 }}>
+          🚀 Projects
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginBottom: 32 }}>
+          {projects.map(p => <ProjectCard key={p.title} p={p} onClick={() => setSelected(p)} />)}
         </div>
 
-        {tab === 'projects' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {projects.map(p => <ProjectCard key={p.title} p={p} onClick={() => setSelected(p)} />)}
+        {/* Publications */}
+        <div style={{ fontSize: 11, fontWeight: 600, color: textFaint, textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: 12 }}>
+          📄 Publications
+        </div>
+        <div style={{
+          background: 'linear-gradient(135deg, rgba(99,160,255,0.1), rgba(167,139,250,0.1))',
+          border: '1px solid rgba(99,160,255,0.2)', borderRadius: 12, padding: '12px 16px',
+          display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16,
+        }}>
+          <span style={{ fontSize: 28 }}>🎓</span>
+          <div>
+            <div style={{ fontSize: 13, fontWeight: 600, color: text }}>2 peer-reviewed publications</div>
+            <div style={{ fontSize: 11.5, color: textFaint, marginTop: 2 }}>Published in IEEE and Springer · 2021–2024</div>
           </div>
-        )}
-        {tab === 'publications' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-            <div style={{
-              background: 'linear-gradient(135deg, rgba(99,160,255,0.1), rgba(167,139,250,0.1))',
-              border: '1px solid rgba(99,160,255,0.2)', borderRadius: 12, padding: '12px 16px',
-              display: 'flex', alignItems: 'center', gap: 12,
-            }}>
-              <span style={{ fontSize: 28 }}>🎓</span>
-              <div>
-                <div style={{ fontSize: 13, fontWeight: 600, color: text }}>2 peer-reviewed publications</div>
-                <div style={{ fontSize: 11.5, color: textFaint, marginTop: 2 }}>Published in IEEE and Springer · 2021–2024</div>
-              </div>
-            </div>
-            {publications.map(pub => <PubCard key={pub.id} pub={pub} />)}
-          </div>
-        )}
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+          {publications.map(pub => <PubCard key={pub.id} pub={pub} />)}
+        </div>
       </div>
       {selected && <ProjectDetail p={selected} onClose={() => setSelected(null)} />}
     </div>

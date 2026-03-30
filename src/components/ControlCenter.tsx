@@ -1,7 +1,8 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import { Theme } from '../context/ThemeContext'
 
-interface AudioControls {
+interface AudioControls
+{
   isPlaying: boolean
   volume: number
   currentTime: number
@@ -12,7 +13,8 @@ interface AudioControls {
   seek: (t: number) => void
 }
 
-interface Props {
+interface Props
+{
   show: boolean
   onClose: () => void
   audioControls: AudioControls
@@ -22,7 +24,8 @@ interface Props {
 
 function Tile({ icon, label, active, onToggle, wide }: {
   icon: string; label: string; active: boolean; onToggle: () => void; wide?: boolean
-}) {
+})
+{
   return (
     <div onClick={onToggle} style={{
       background: active ? 'rgba(255,255,255,0.88)' : 'rgba(255,255,255,0.1)',
@@ -43,26 +46,30 @@ function Tile({ icon, label, active, onToggle, wide }: {
 
 function Slider({ value, onChange, icon, color = '#63a0ff' }: {
   value: number; onChange: (v: number) => void; icon: string; color?: string
-}) {
+})
+{
   const trackRef = useRef<HTMLDivElement>(null)
   const dragging = useRef(false)
 
-  const getValueFromEvent = useCallback((e: MouseEvent) => {
+  const getValueFromEvent = useCallback((e: MouseEvent) =>
+  {
     const track = trackRef.current
     if (!track) return value
-    const rect  = track.getBoundingClientRect()
+    const rect = track.getBoundingClientRect()
     return Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width))
   }, [value])
 
-  const onMouseDown = (e: React.MouseEvent) => {
+  const onMouseDown = (e: React.MouseEvent) =>
+  {
     dragging.current = true
     onChange(getValueFromEvent(e.nativeEvent))
     e.preventDefault()
   }
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     const onMove = (e: MouseEvent) => { if (dragging.current) onChange(getValueFromEvent(e)) }
-    const onUp   = () => { dragging.current = false }
+    const onUp = () => { dragging.current = false }
     window.addEventListener('mousemove', onMove)
     window.addEventListener('mouseup', onUp)
     return () => { window.removeEventListener('mousemove', onMove); window.removeEventListener('mouseup', onUp) }
@@ -90,33 +97,38 @@ function Slider({ value, onChange, icon, color = '#63a0ff' }: {
   )
 }
 
-function ProgressBar({ current, duration, onSeek }: { current: number; duration: number; onSeek: (t: number) => void }) {
+function ProgressBar({ current, duration, onSeek }: { current: number; duration: number; onSeek: (t: number) => void })
+{
   const trackRef = useRef<HTMLDivElement>(null)
   const dragging = useRef(false)
 
-  const getTime = useCallback((e: MouseEvent) => {
+  const getTime = useCallback((e: MouseEvent) =>
+  {
     const track = trackRef.current
     if (!track || !duration) return 0
-    const rect  = track.getBoundingClientRect()
+    const rect = track.getBoundingClientRect()
     return Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)) * duration
   }, [duration])
 
-  const onMouseDown = (e: React.MouseEvent) => {
+  const onMouseDown = (e: React.MouseEvent) =>
+  {
     dragging.current = true
     onSeek(getTime(e.nativeEvent))
     e.preventDefault()
   }
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     const onMove = (e: MouseEvent) => { if (dragging.current) onSeek(getTime(e)) }
-    const onUp   = () => { dragging.current = false }
+    const onUp = () => { dragging.current = false }
     window.addEventListener('mousemove', onMove)
     window.addEventListener('mouseup', onUp)
     return () => { window.removeEventListener('mousemove', onMove); window.removeEventListener('mouseup', onUp) }
   }, [getTime, onSeek])
 
   const pct = duration ? (current / duration) * 100 : 0
-  const fmt = (s: number) => {
+  const fmt = (s: number) =>
+  {
     if (!s || isNaN(s)) return '0:00'
     return `${Math.floor(s / 60)}:${Math.floor(s % 60).toString().padStart(2, '0')}`
   }
@@ -135,19 +147,22 @@ function ProgressBar({ current, duration, onSeek }: { current: number; duration:
   )
 }
 
-export default function ControlCenter({ show, onClose, audioControls, theme, onThemeChange }: Props) {
-  const [wifi,      setWifi]      = useState(true)
+export default function ControlCenter({ show, onClose, audioControls, theme, onThemeChange }: Props)
+{
+  const [wifi, setWifi] = useState(true)
   const [bluetooth, setBluetooth] = useState(true)
-  const [airdrop,   setAirdrop]   = useState(false)
+  const [airdrop, setAirdrop] = useState(false)
   const [doNotDist, setDoNotDist] = useState(false)
-  const [airplay,   setAirplay]   = useState(false)
+  const [airplay, setAirplay] = useState(false)
   const [brightness, setBrightness] = useState(0.85)
 
   const { isPlaying, volume, currentTime, duration, setVolume, toggle, seek, canPlay } = audioControls
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     if (!show) return
-    const handler = (e: MouseEvent) => {
+    const handler = (e: MouseEvent) =>
+    {
       const target = e.target as Element
       if (!target.closest('[data-cc]')) onClose()
     }
@@ -169,24 +184,23 @@ export default function ControlCenter({ show, onClose, audioControls, theme, onT
     }}>
       {/* Network 2×2 */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-        <Tile icon="📶" label="Wi-Fi"     active={wifi}      onToggle={() => setWifi(v => !v)} />
+        <Tile icon="📶" label="Wi-Fi" active={wifi} onToggle={() => setWifi(v => !v)} />
         <Tile icon="🔵" label="Bluetooth" active={bluetooth} onToggle={() => setBluetooth(v => !v)} />
-        <Tile icon="🔁" label="AirDrop"   active={airdrop}   onToggle={() => setAirdrop(v => !v)} />
-        <Tile icon="🎯" label="Focus"     active={doNotDist} onToggle={() => setDoNotDist(v => !v)} />
+        <Tile icon="🔁" label="AirDrop" active={airdrop} onToggle={() => setAirdrop(v => !v)} />
+        <Tile icon="🎯" label="Focus" active={doNotDist} onToggle={() => setDoNotDist(v => !v)} />
       </div>
 
       {/* Wide tiles */}
       <div style={{ display: 'flex', gap: 8 }}>
         <Tile icon="📺" label="AirPlay" active={airplay} onToggle={() => setAirplay(v => !v)} wide />
-        <Tile icon="🪞" label="Mirror"  active={false}   onToggle={() => {}} wide />
+        <Tile icon="🪞" label="Mirror" active={false} onToggle={() => { }} wide />
       </div>
 
       {/* Theme switcher */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8 }}>
         {([
-          { id: 'dark' as Theme,      icon: '🌙', label: 'Dark' },
-          { id: 'light' as Theme,     icon: '☀️', label: 'Light' },
-          { id: 'wallpaper' as Theme, icon: '🖼', label: 'Wallpaper' },
+          { id: 'dark' as Theme, icon: '🌙', label: 'Dark' },
+          { id: 'light' as Theme, icon: '☀️', label: 'Light' },
         ]).map(t => (
           <Tile key={t.id} icon={t.icon} label={t.label}
             active={theme === t.id}
@@ -210,7 +224,7 @@ export default function ControlCenter({ show, onClose, audioControls, theme, onT
 
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 22, marginTop: 10 }}>
           <button onClick={() => seek(0)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: 'rgba(255,255,255,0.75)' }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z" /></svg>
           </button>
           <button onClick={toggle} style={{
             width: 38, height: 38, borderRadius: '50%',
@@ -223,13 +237,13 @@ export default function ControlCenter({ show, onClose, audioControls, theme, onT
             onMouseUp={e => (e.currentTarget.style.transform = 'scale(1)')}
           >
             {isPlaying ? (
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6zm8-14v14h4V5z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6zm8-14v14h4V5z" /></svg>
             ) : (
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
             )}
           </button>
           <button onClick={() => seek(duration || 0)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: 'rgba(255,255,255,0.75)' }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm2.5-6 5.5 4V8z M16 6h2v12h-2z"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm2.5-6 5.5 4V8z M16 6h2v12h-2z" /></svg>
           </button>
         </div>
       </div>

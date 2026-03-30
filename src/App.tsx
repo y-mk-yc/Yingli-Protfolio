@@ -9,7 +9,7 @@ import TinderModal from './components/TinderModal'
 import ControlCenter from './components/ControlCenter'
 import LoadingScreen from './components/LoadingScreen'
 import { ThemeContext, Theme } from './context/ThemeContext'
-import musicSrc from './assets/Hans Zimmer - Cornfield Chase.mgg'
+import musicSrc from './assets/hans-zimmer-cornfield-chase-nonstop2k.com.mp3'
 import wallpaperSrc from './assets/wallpager.jpg'
 import AboutWindow from './windows/AboutWindow'
 import ExperienceWindow from './windows/ExperienceWindow'
@@ -25,10 +25,19 @@ import experienceImg from './assets/Cursor.png'
 import educationImg from './assets/education_page_01.png'
 import finderImg from './assets/aboutme_page_01.png'
 import helpImg from './assets/help_page_01.png'
+import netImg from './assets/net.png'
+import nestImg from './assets/nest.svg'
+import nextImg from './assets/next.svg'
+import flutterImg from './assets/flutter.svg'
+import gcpImg from './assets/gcp.svg'
+import awsImg from './assets/aws.svg'
+import dbImg from './assets/db.svg'
+import uiImg from './assets/ui.svg'
 
 const SEARCH_HISTORY_KEY = 'portfolio_search_history'
 
-interface WindowDef {
+interface WindowDef
+{
   id: string; title: string
   icon: string; iconBg: string
   img?: string
@@ -38,47 +47,54 @@ interface WindowDef {
 }
 
 const WINDOWS: WindowDef[] = [
-  { id: 'about',      title: 'About Me',       icon: '👤', iconBg: 'linear-gradient(135deg,#667eea,#764ba2)', img: finderImg,    defaultPos: { x: 120, y: 80  }, defaultSize: { w: 520, h: 560 }, content: <AboutWindow /> },
-  { id: 'experience', title: 'Work Experience', icon: '💼', iconBg: 'linear-gradient(135deg,#f59e0b,#ef4444)', img: experienceImg, defaultPos: { x: 180, y: 65  }, defaultSize: { w: 580, h: 560 }, content: <ExperienceWindow /> },
-  { id: 'projects',   title: 'Projects',        icon: '🚀', iconBg: 'linear-gradient(135deg,#10b981,#059669)', img: projectsImg,   defaultPos: { x: 160, y: 75  }, defaultSize: { w: 560, h: 560 }, content: <ProjectsWindow /> },
-  { id: 'skills',     title: 'Skills',          icon: '⚡', iconBg: 'linear-gradient(135deg,#8b5cf6,#6d28d9)', img: skillsImg,     defaultPos: { x: 150, y: 80  }, defaultSize: { w: 490, h: 510 }, content: <SkillsWindow /> },
-  { id: 'education',  title: 'Education',       icon: '🎓', iconBg: 'linear-gradient(135deg,#3b82f6,#1d4ed8)', img: educationImg,  defaultPos: { x: 140, y: 90  }, defaultSize: { w: 500, h: 430 }, content: <EducationWindow /> },
-  { id: 'contact',    title: 'Contact',         icon: '📬', iconBg: 'linear-gradient(135deg,#ec4899,#be185d)', img: emailImg,      defaultPos: { x: 200, y: 85  }, defaultSize: { w: 460, h: 480 }, content: <ContactWindow /> },
-  { id: 'help',       title: 'Portfolio Help',  icon: '❓', iconBg: 'linear-gradient(135deg,#3b82f6,#6d28d9)', img: helpImg,       defaultPos: { x: 260, y: 100 }, defaultSize: { w: 480, h: 520 }, content: <HelpWindowContent /> },
+  { id: 'about', title: 'About Me', icon: '👤', iconBg: 'linear-gradient(135deg,#667eea,#764ba2)', img: finderImg, defaultPos: { x: 120, y: 80 }, defaultSize: { w: 520, h: 560 }, content: <AboutWindow /> },
+  { id: 'experience', title: 'Work Experience', icon: '💼', iconBg: 'linear-gradient(135deg,#f59e0b,#ef4444)', img: experienceImg, defaultPos: { x: 180, y: 65 }, defaultSize: { w: 580, h: 560 }, content: <ExperienceWindow /> },
+  { id: 'projects', title: 'Projects', icon: '🚀', iconBg: 'linear-gradient(135deg,#10b981,#059669)', img: projectsImg, defaultPos: { x: 160, y: 75 }, defaultSize: { w: 560, h: 560 }, content: <ProjectsWindow /> },
+  { id: 'skills', title: 'Skills', icon: '⚡', iconBg: 'linear-gradient(135deg,#8b5cf6,#6d28d9)', img: skillsImg, defaultPos: { x: 150, y: 80 }, defaultSize: { w: 490, h: 510 }, content: <SkillsWindow /> },
+  { id: 'education', title: 'Education', icon: '🎓', iconBg: 'linear-gradient(135deg,#3b82f6,#1d4ed8)', img: educationImg, defaultPos: { x: 140, y: 90 }, defaultSize: { w: 500, h: 430 }, content: <EducationWindow /> },
+  { id: 'contact', title: 'Contact', icon: '📬', iconBg: 'linear-gradient(135deg,#ec4899,#be185d)', img: emailImg, defaultPos: { x: 200, y: 85 }, defaultSize: { w: 460, h: 480 }, content: <ContactWindow /> },
+  { id: 'help', title: 'Portfolio Help', icon: '❓', iconBg: 'linear-gradient(135deg,#3b82f6,#6d28d9)', img: helpImg, defaultPos: { x: 260, y: 100 }, defaultSize: { w: 480, h: 520 }, content: <HelpWindowContent /> },
 ]
 
 /* ─── helpers ────────────────────────────────────────────────── */
 interface HistoryEntry { query: string; ts: number }
 
-function saveSearch(query: string) {
+function saveSearch(query: string)
+{
   if (!query.trim()) return
   const prev: HistoryEntry[] = JSON.parse(localStorage.getItem(SEARCH_HISTORY_KEY) || '[]')
   const deduped = prev.filter(h => h.query !== query.trim())
   localStorage.setItem(SEARCH_HISTORY_KEY, JSON.stringify([{ query: query.trim(), ts: Date.now() }, ...deduped].slice(0, 20)))
 }
-function loadHistory(): HistoryEntry[] {
+function loadHistory(): HistoryEntry[]
+{
   return JSON.parse(localStorage.getItem(SEARCH_HISTORY_KEY) || '[]')
 }
 
 /* ─── Matrix rain ────────────────────────────────────────────── */
-function MatrixRain({ onDone }: { onDone: () => void }) {
+function MatrixRain({ onDone }: { onDone: () => void })
+{
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  useEffect(() => {
+  useEffect(() =>
+  {
     const canvas = canvasRef.current
     if (!canvas) return
     const ctx = canvas.getContext('2d')!
     canvas.width = window.innerWidth
     canvas.height = window.innerHeight
-    const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノ0123456789ABCDEF'
+    // const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノ0123456789ABCDEF'
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     const colW = 16
     const cols = Math.floor(canvas.width / colW)
     const drops = Array.from({ length: cols }, () => Math.random() * -50)
-    const draw = () => {
+    const draw = () =>
+    {
       ctx.fillStyle = 'rgba(0,0,0,0.05)'
       ctx.fillRect(0, 0, canvas.width, canvas.height)
       ctx.fillStyle = '#00ff41'
       ctx.font = `${colW - 2}px monospace`
-      drops.forEach((y, i) => {
+      drops.forEach((y, i) =>
+      {
         ctx.fillText(chars[Math.floor(Math.random() * chars.length)], i * colW, y * colW)
         drops[i] = y > canvas.height / colW + Math.random() * 50 ? 0 : y + 1
       })
@@ -98,7 +114,8 @@ function MatrixRain({ onDone }: { onDone: () => void }) {
 }
 
 /* ─── Calendar ───────────────────────────────────────────────── */
-function CalendarWidget() {
+function CalendarWidget()
+{
   const now = new Date()
   const month = now.toLocaleDateString('en-US', { month: 'long' }).toUpperCase()
   const year = now.getFullYear()
@@ -112,7 +129,7 @@ function CalendarWidget() {
     <GlassWidget style={{ width: 218 }}>
       <div style={{ color: 'rgba(255,255,255,0.42)', fontSize: 9, letterSpacing: 1, marginBottom: 6 }}>{month}</div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7,1fr)', gap: '2px 1px' }}>
-        {['S','M','T','W','T','F','S'].map((d, i) => (
+        {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => (
           <div key={i} style={{ color: 'rgba(255,255,255,0.32)', fontSize: 8, textAlign: 'center', paddingBottom: 3 }}>{d}</div>
         ))}
         {cells.map((d, i) => (
@@ -130,14 +147,16 @@ function CalendarWidget() {
 }
 
 /* ─── Analog Clock ───────────────────────────────────────────── */
-function AnalogClock({ timeStr }: { timeStr: string }) {
+function AnalogClock({ timeStr }: { timeStr: string })
+{
   const parts = (timeStr || '12:00').split(':')
   const h = parseInt(parts[0]) || 0
   const m = parseInt(parts[1]) || 0
   const minuteDeg = m * 6
   const hourDeg = (h % 12) * 30 + m * 0.5
   const size = 54, cx = size / 2
-  const hand = (deg: number, len: number, w: number) => {
+  const hand = (deg: number, len: number, w: number) =>
+  {
     const rad = (deg - 90) * Math.PI / 180
     return <line x1={cx} y1={cx} x2={cx + len * Math.cos(rad)} y2={cx + len * Math.sin(rad)}
       stroke="rgba(255,255,255,0.92)" strokeWidth={w} strokeLinecap="round" />
@@ -145,7 +164,8 @@ function AnalogClock({ timeStr }: { timeStr: string }) {
   return (
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
       <circle cx={cx} cy={cx} r={cx - 1} fill="rgba(28,16,54,0.68)" stroke="rgba(255,255,255,0.17)" strokeWidth="0.8" />
-      {Array.from({ length: 12 }, (_, i) => {
+      {Array.from({ length: 12 }, (_, i) =>
+      {
         const rad = (i * 30 - 90) * Math.PI / 180, main = i % 3 === 0
         const r1 = cx - 3, r2 = cx - (main ? 7 : 5)
         return <line key={i}
@@ -169,12 +189,16 @@ const CLOCK_CITIES = [
   { name: 'Tokyo', tz: 'Asia/Tokyo' },
 ]
 
-function WorldClocksWidget() {
+function WorldClocksWidget()
+{
   const [times, setTimes] = useState(CLOCK_CITIES.map(() => '12:00'))
-  useEffect(() => {
-    const tick = () => {
+  useEffect(() =>
+  {
+    const tick = () =>
+    {
       const now = new Date()
-      setTimes(CLOCK_CITIES.map(c => {
+      setTimes(CLOCK_CITIES.map(c =>
+      {
         const opts: Intl.DateTimeFormatOptions = { hour: '2-digit', minute: '2-digit', hour12: false }
         if (c.tz) opts.timeZone = c.tz
         return now.toLocaleTimeString('en-US', opts)
@@ -199,15 +223,16 @@ function WorldClocksWidget() {
 
 /* ─── Spotlight ──────────────────────────────────────────────── */
 const QUICK_ICONS = [
-  { id: 'about',    icon: '👤', tip: 'About Me' },
+  { id: 'about', icon: '👤', tip: 'About Me' },
   { id: 'projects', icon: '🚀', tip: 'Projects' },
-  { id: 'skills',   icon: '⚡', tip: 'Skills' },
-  { id: 'contact',  icon: '📬', tip: 'Contact' },
+  { id: 'skills', icon: '⚡', tip: 'Skills' },
+  { id: 'contact', icon: '📬', tip: 'Contact' },
 ]
 
 function SpotlightSearch({ onOpen, onHelp, onFeedback, onMatrix }: {
   onOpen: (id: string) => void; onHelp: () => void; onFeedback: () => void; onMatrix: () => void
-}) {
+})
+{
   const [query, setQuery] = useState('')
   const [focused, setFocused] = useState(false)
   const [tooltip, setTooltip] = useState<string | null>(null)
@@ -219,15 +244,17 @@ function SpotlightSearch({ onOpen, onHelp, onFeedback, onMatrix }: {
   const history = (!query && focused) ? loadHistory().slice(0, 6) : []
   const showDropdown = focused && (filtered.length > 0 || history.length > 0)
 
-  const handleQueryChange = (val: string) => {
+  const handleQueryChange = (val: string) =>
+  {
     setQuery(val)
     const lower = val.toLowerCase().trim()
-    if (lower === 'help')     { onHelp();    setQuery(''); return }
+    if (lower === 'help') { onHelp(); setQuery(''); return }
     if (lower === 'feedback') { onFeedback(); setQuery(''); return }
-    if (lower === 'matrix')   { onMatrix();  setQuery(''); return }
+    if (lower === 'matrix') { onMatrix(); setQuery(''); return }
   }
 
-  const selectResult = (id: string, q: string) => {
+  const selectResult = (id: string, q: string) =>
+  {
     saveSearch(q || id); onOpen(id); setQuery(''); setFocused(false)
   }
 
@@ -244,7 +271,8 @@ function SpotlightSearch({ onOpen, onHelp, onFeedback, onMatrix }: {
             onChange={e => handleQueryChange(e.target.value)}
             onFocus={() => setFocused(true)}
             onBlur={() => setTimeout(() => setFocused(false), 200)}
-            onKeyDown={e => {
+            onKeyDown={e =>
+            {
               if (e.key === 'Enter' && filtered[0]) selectResult(filtered[0].id, query)
               if (e.key === 'Escape') { setQuery(''); setFocused(false) }
             }}
@@ -313,12 +341,18 @@ function SpotlightSearch({ onOpen, onHelp, onFeedback, onMatrix }: {
 
 /* ─── Status Widget ──────────────────────────────────────────── */
 const STATUS_SKILLS = [
-  { icon: '⚛️', label: 'React' }, { icon: '🟢', label: 'Node' },
-  { icon: '🐍', label: 'Python' }, { icon: '☁️', label: 'AWS' },
-  { icon: '🗄️', label: 'DB' }, { icon: '🎨', label: 'UI' },
+  { icon: null, img: netImg, label: '.Net' },
+  { icon: null, img: nestImg, label: 'Nest' },
+  { icon: null, img: nextImg, label: 'Next' },
+  { icon: null, img: flutterImg, label: 'Flutter' },
+  { icon: null, img: gcpImg, label: 'GCP' },
+  { icon: null, img: awsImg, label: 'AWS' },
+  { icon: null, img: dbImg, label: 'DB' },
+  { icon: null, img: uiImg, label: 'UI' },
 ]
 
-function StatusWidget() {
+function StatusWidget()
+{
   return (
     <GlassWidget>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
@@ -327,15 +361,18 @@ function StatusWidget() {
           <div style={{ color: 'white', fontSize: 22, fontWeight: 600, lineHeight: 1.2, marginTop: 3 }}>Full Stack</div>
           <div style={{ color: 'white', fontSize: 10.5, marginTop: 3, lineHeight: 1.5 }}>
             Backend · Frontend · Mobile<br />
-            <span style={{ color: 'rgba(99,160,255,0.85)' }}>Junior Level</span>
+            <span style={{ color: 'white' }}>Junior Level</span>
           </div>
         </div>
         <span style={{ fontSize: 22, marginTop: 2 }}>💼</span>
       </div>
-      <div style={{ marginTop: 12, borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 10, display: 'flex', justifyContent: 'space-between' }}>
+      <div style={{
+        marginTop: 12, borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 10,
+        display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px 4px',
+      }}>
         {STATUS_SKILLS.map((s, i) => (
           <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
-            <span style={{ fontSize: 14 }}>{s.icon}</span>
+            <img src={s.img} alt={s.label} style={{ width: 20, height: 20, objectFit: 'contain' }} />
             <span style={{ color: 'white', fontSize: 10 }}>{s.label}</span>
           </div>
         ))}
@@ -345,7 +382,8 @@ function StatusWidget() {
 }
 
 /* ─── Mini widgets ───────────────────────────────────────────── */
-function LatestProjectWidget() {
+function LatestProjectWidget()
+{
   return (
     <GlassWidget style={{ cursor: 'pointer', width: 104 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
@@ -361,7 +399,8 @@ function LatestProjectWidget() {
   )
 }
 
-function SayHelloWidget() {
+function SayHelloWidget()
+{
   return (
     <GlassWidget style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', width: 104, alignItems: 'center', justifyContent: 'center', gap: 6 }}>
       <span style={{ fontSize: 26 }}>😊</span>
@@ -371,7 +410,8 @@ function SayHelloWidget() {
 }
 
 /* ─── App ────────────────────────────────────────────────────── */
-export default function App() {
+export default function App()
+{
   const [loading, setLoading] = useState(true)
   const [openWindows, setOpenWindows] = useState(new Set<string>())
   const [zMap, setZMap] = useState<Record<string, number>>({})
@@ -381,53 +421,69 @@ export default function App() {
   const [tinderOpen, setTinderOpen] = useState(false)
   const [matrixOn, setMatrixOn] = useState(false)
   const [ccOpen, setCcOpen] = useState(false)
-  const [theme, setTheme] = useState<Theme>('dark')
+  const [theme, setTheme] = useState<Theme>('light')
 
   // ── Audio ──
   const audioRef = useRef<HTMLAudioElement>(null)
-  const [isPlaying, setIsPlaying] = useState(false)
+  const [isPlaying, setIsPlaying] = useState(true)
   const [volume, setVolRaw] = useState(0.6)
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
-  const [canPlay, setCanPlay] = useState(false)
+  const [canPlay, setCanPlay] = useState(true)
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     if (audioRef.current) audioRef.current.volume = volume
   }, [volume])
+
+  // Autoplay once loading screen is gone (window.load already fired by then)
+  useEffect(() =>
+  {
+    if (!loading && audioRef.current) {
+      audioRef.current.play().catch(() => setIsPlaying(false))
+    }
+  }, [loading])
 
   const audioControls = {
     isPlaying, volume, currentTime, duration, canPlay,
     setVolume: (v: number) => setVolRaw(v),
-    toggle: () => {
+    toggle: () =>
+    {
       const a = audioRef.current
       if (!a || !canPlay) return
       if (isPlaying) { a.pause(); setIsPlaying(false) }
-      else { a.play().then(() => setIsPlaying(true)).catch(() => {}) }
+      else { a.play().then(() => setIsPlaying(true)).catch(() => { }) }
     },
-    seek: (t: number) => {
+    seek: (t: number) =>
+    {
       const a = audioRef.current
       if (!a || !duration) return
       a.currentTime = Math.max(0, Math.min(t, duration))
     },
   }
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     const t1 = setTimeout(() => setNotifShow(true), 900)
     const t2 = setTimeout(() => setNotifShow(false), 5400)
     return () => { clearTimeout(t1); clearTimeout(t2) }
   }, [])
 
-  const openWindow = useCallback((id: string) => {
+  const openWindow = useCallback((id: string) =>
+  {
     setOpenWindows(prev => { const n = new Set(prev); n.add(id); return n })
     bringToFront(id)
   }, [])
 
-  const closeWindow = useCallback((id: string) => {
+  const closeWindow = useCallback((id: string) =>
+  {
     setOpenWindows(prev => { const n = new Set(prev); n.delete(id); return n })
   }, [])
 
-  const bringToFront = useCallback((id: string) => {
-    setZCounter(z => {
+  const bringToFront = useCallback((id: string) =>
+  {
+    setZCounter(z =>
+    {
       const next = z + 1
       setZMap(m => ({ ...m, [id]: next }))
       return next
@@ -435,15 +491,11 @@ export default function App() {
   }, [])
 
   // Build background style based on theme
-  const bgStyle: React.CSSProperties =
-    theme === 'light'
-      ? { background: 'linear-gradient(160deg, #dce8f5 0%, #e8f0fc 50%, #f0f5ff 100%)' }
-      : theme === 'wallpaper'
-      ? { backgroundImage: `url(${wallpaperSrc})`, backgroundSize: 'cover', backgroundPosition: 'center' }
-      : { backgroundImage: `url(${wallpaperSrc})`, backgroundSize: 'cover', backgroundPosition: 'center' }
-
-  if (loading) return <LoadingScreen onDone={() => setLoading(false)} />
-
+  const bgStyle: React.CSSProperties = {
+    backgroundImage: `url(${wallpaperSrc})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  }
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>
       <div className="w-screen h-screen overflow-hidden relative select-none" style={bgStyle}>
@@ -458,7 +510,6 @@ export default function App() {
         />
 
         {theme === 'dark' && <div className="aurora-layer" />}
-        {theme === 'wallpaper' && <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.18)', pointerEvents: 'none' }} />}
         {theme === 'light' && <div style={{ position: 'absolute', inset: 0, background: 'rgba(255,255,255,0.08)', pointerEvents: 'none' }} />}
 
         {matrixOn && <MatrixRain onDone={() => setMatrixOn(false)} />}
@@ -494,7 +545,8 @@ export default function App() {
           </Window>
         ))}
 
-        <Dock openWindows={openWindows} onOpen={(id) => {
+        <Dock openWindows={openWindows} onOpen={(id) =>
+        {
           if (id === 'tinder') { setTinderOpen(true); return }
           openWindow(id)
         }} />
@@ -505,6 +557,7 @@ export default function App() {
         {feedbackOpen && <FeedbackModal onClose={() => setFeedbackOpen(false)} />}
         {tinderOpen && <TinderModal onClose={() => setTinderOpen(false)} />}
       </div>
+      {loading && <LoadingScreen onDone={() => setLoading(false)} />}
     </ThemeContext.Provider>
   )
 }

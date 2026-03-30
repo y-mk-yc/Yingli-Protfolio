@@ -10,6 +10,7 @@ const links = [
 
 function CopyButton({ text: copyText }: { text: string }) {
   const [copied, setCopied] = useState(false)
+  const { isDark } = useWindowColors()
   const copy = (e: React.MouseEvent) => {
     e.stopPropagation()
     navigator.clipboard.writeText(copyText).then(() => {
@@ -19,10 +20,10 @@ function CopyButton({ text: copyText }: { text: string }) {
   }
   return (
     <button onClick={copy} style={{
-      background: copied ? 'rgba(42,200,64,0.18)' : 'rgba(255,255,255,0.08)',
-      border: `1px solid ${copied ? 'rgba(42,200,64,0.4)' : 'rgba(255,255,255,0.15)'}`,
+      background: copied ? 'rgba(42,200,64,0.18)' : isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)',
+      border: `1px solid ${copied ? 'rgba(42,200,64,0.4)' : isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.12)'}`,
       borderRadius: 7, padding: '4px 10px',
-      color: copied ? '#2ac840' : 'rgba(255,255,255,0.55)',
+      color: copied ? '#2ac840' : isDark ? 'rgba(255,255,255,0.55)' : 'rgba(20,20,22,0.60)',
       fontSize: 11.5, fontWeight: 500, cursor: 'pointer',
       fontFamily: 'inherit', transition: 'all 0.2s',
       display: 'flex', alignItems: 'center', gap: 4, flexShrink: 0,
@@ -41,7 +42,7 @@ function CopyButton({ text: copyText }: { text: string }) {
 }
 
 export default function ContactWindow() {
-  const { text, textDim, textFaint, surface, border, divider } = useWindowColors()
+  const { isDark, text, textDim, textFaint, surface, border, divider } = useWindowColors()
   const [msgName, setMsgName] = useState('')
   const [msgBody, setMsgBody] = useState('')
   const [sent, setSent]       = useState(false)
@@ -123,7 +124,7 @@ export default function ContactWindow() {
             background: surface, border: `1px solid ${border}`, borderRadius: 12,
             textDecoration: 'none', transition: 'background 0.2s',
           }}
-          onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.08)')}
+          onMouseEnter={e => (e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)')}
           onMouseLeave={e => (e.currentTarget.style.background = surface)}
         >
           <div style={{

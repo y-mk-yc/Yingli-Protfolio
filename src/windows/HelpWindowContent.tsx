@@ -40,7 +40,7 @@ const sections = [
       'Toggle Wi-Fi, Bluetooth, AirDrop and Focus Mode',
       'Play / pause Cornfield Chase (Hans Zimmer)',
       'Drag the volume slider to adjust music volume',
-      'Switch between Dark, Light and Wallpaper themes',
+      'Switch between Dark and Light themes',
     ],
   },
   {
@@ -55,7 +55,8 @@ const sections = [
   },
 ]
 
-export default function HelpWindowContent() {
+export default function HelpWindowContent()
+{
   const { text, textDim, textFaint, surface, border } = useWindowColors()
 
   return (
