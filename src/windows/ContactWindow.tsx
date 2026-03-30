@@ -4,16 +4,19 @@ import { useWindowColors } from '../context/ThemeContext'
 const EMAIL = 'yingli_duan@outlook.com'
 
 const links = [
-  { icon: '🐙', label: 'GitHub',   value: 'github.com/y-mk-yc',      href: 'https://github.com/y-mk-yc',               bg: '#24292e' },
-  { icon: '💼', label: 'LinkedIn', value: 'linkedin.com/in/y-mk-yc', href: 'https://www.linkedin.com/in/y-mk-yc',      bg: '#0077b5' },
+  { icon: '🐙', label: 'GitHub', value: 'github.com/y-mk-yc', href: 'https://github.com/y-mk-yc', bg: '#24292e' },
+  { icon: '💼', label: 'LinkedIn', value: 'linkedin.com/in/y-mk-yc', href: 'https://www.linkedin.com/in/yingli-d-5659b4251/', bg: '#0077b5' },
 ]
 
-function CopyButton({ text: copyText }: { text: string }) {
+function CopyButton({ text: copyText }: { text: string })
+{
   const [copied, setCopied] = useState(false)
   const { isDark } = useWindowColors()
-  const copy = (e: React.MouseEvent) => {
+  const copy = (e: React.MouseEvent) =>
+  {
     e.stopPropagation()
-    navigator.clipboard.writeText(copyText).then(() => {
+    navigator.clipboard.writeText(copyText).then(() =>
+    {
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     })
@@ -30,28 +33,30 @@ function CopyButton({ text: copyText }: { text: string }) {
     }}>
       {copied ? (
         <><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-          <polyline points="20,6 9,17 4,12"/>
+          <polyline points="20,6 9,17 4,12" />
         </svg> Copied!</>
       ) : (
         <><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+          <rect x="9" y="9" width="13" height="13" rx="2" /><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
         </svg> Copy</>
       )}
     </button>
   )
 }
 
-export default function ContactWindow() {
+export default function ContactWindow()
+{
   const { isDark, text, textDim, textFaint, surface, border, divider } = useWindowColors()
   const [msgName, setMsgName] = useState('')
   const [msgBody, setMsgBody] = useState('')
-  const [sent, setSent]       = useState(false)
+  const [sent, setSent] = useState(false)
 
-  const handleSend = (e: React.FormEvent) => {
+  const handleSend = (e: React.FormEvent) =>
+  {
     e.preventDefault()
     if (!msgBody.trim()) return
     const subject = encodeURIComponent(`Portfolio contact${msgName ? ` from ${msgName}` : ''}`)
-    const body    = encodeURIComponent(msgBody)
+    const body = encodeURIComponent(msgBody)
     window.open(`mailto:${EMAIL}?subject=${subject}&body=${body}`, '_blank')
     setSent(true)
     setMsgName(''); setMsgBody('')
@@ -108,8 +113,8 @@ export default function ContactWindow() {
             textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4,
           }}>
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-              <polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/>
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+              <polyline points="15,3 21,3 21,9" /><line x1="10" y1="14" x2="21" y2="3" />
             </svg>
             Open
           </a>
@@ -137,8 +142,8 @@ export default function ContactWindow() {
             <div style={{ fontSize: 13.5, color: text, fontWeight: 500, marginTop: 2 }}>{l.value}</div>
           </div>
           <svg style={{ marginLeft: 'auto', opacity: 0.3 }} width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={text} strokeWidth="2">
-            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-            <polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/>
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+            <polyline points="15,3 21,3 21,9" /><line x1="10" y1="14" x2="21" y2="3" />
           </svg>
         </a>
       ))}
@@ -160,7 +165,7 @@ export default function ContactWindow() {
               placeholder="Your name (optional)"
               style={inputStyle}
               onFocus={e => (e.target.style.borderColor = 'rgba(99,160,255,0.5)')}
-              onBlur={e  => (e.target.style.borderColor = border)}
+              onBlur={e => (e.target.style.borderColor = border)}
             />
             <textarea
               value={msgBody}
@@ -170,7 +175,7 @@ export default function ContactWindow() {
               required
               style={{ ...inputStyle, resize: 'vertical', minHeight: 72 }}
               onFocus={e => (e.target.style.borderColor = 'rgba(99,160,255,0.5)')}
-              onBlur={e  => (e.target.style.borderColor = border)}
+              onBlur={e => (e.target.style.borderColor = border)}
             />
             <button type="submit" disabled={!msgBody.trim()} style={{
               background: msgBody.trim() ? 'linear-gradient(135deg,#3b7cf6,#6d4cf6)' : surface,

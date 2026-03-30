@@ -9,10 +9,10 @@ const CATEGORIES: Category[] = [
     name: 'Mobile & Frontend',
     color: '#63a0ff',
     skills: [
-      { name: 'Flutter / Dart',   pct: 0.92 },
-      { name: 'React / Next.js',  pct: 0.86 },
-      { name: 'TypeScript',       pct: 0.83 },
-      { name: 'React Native',     pct: 0.72 },
+      { name: 'Flutter / Dart', pct: 0.92 },
+      { name: 'React / Next.js', pct: 0.86 },
+      { name: 'TypeScript', pct: 0.83 },
+      { name: 'React Native', pct: 0.72 },
     ],
   },
   {
@@ -20,8 +20,8 @@ const CATEGORIES: Category[] = [
     color: '#a78bfa',
     skills: [
       { name: '.NET 8 / ASP.NET Core', pct: 0.89 },
-      { name: 'Node.js / Nest.js',     pct: 0.83 },
-      { name: 'Spring Boot',           pct: 0.65 },
+      { name: 'Node.js / Nest.js', pct: 0.83 },
+      { name: 'Spring Boot', pct: 0.45 },
     ],
   },
   {
@@ -29,36 +29,40 @@ const CATEGORIES: Category[] = [
     color: '#34d399',
     skills: [
       { name: 'PostgreSQL', pct: 0.86 },
-      { name: 'Redis',      pct: 0.79 },
-      { name: 'Kafka',      pct: 0.73 },
-      { name: 'RabbitMQ',  pct: 0.70 },
+      { name: 'Redis', pct: 0.79 },
+      { name: 'Kafka', pct: 0.73 },
+      { name: 'RabbitMQ', pct: 0.70 },
     ],
   },
   {
     name: 'Infrastructure & Cloud',
     color: '#fbbf24',
     skills: [
-      { name: 'Docker',    pct: 0.85 },
+      { name: 'Docker', pct: 0.85 },
       { name: 'AWS / GCP', pct: 0.76 },
       { name: 'Kubernetes', pct: 0.68 },
-      { name: 'CI/CD',     pct: 0.82 },
+      { name: 'CI/CD', pct: 0.82 },
     ],
   },
 ]
 
 const EXTRA = [
-  'BLE', 'Kotlin', 'Flutter BLoC', 'Platform Channels',
-  'CARP Mobile Sensing', 'YARP', 'NuGet', 'Cypress',
+  'BLE', 'Kotlin', 'Flutter BLoC', 'Flutter Platform Channels',
+  'NuGet', 'Cypress',
   'Cucumber-JUnit', 'AWS Serverless',
 ]
 
-export default function SkillsWindow() {
+export default function SkillsWindow()
+{
   const { text, textDim, textFaint, surface, border, divider } = useWindowColors()
   const containerRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      containerRef.current?.querySelectorAll('.skill-fill').forEach(el => {
+  useEffect(() =>
+  {
+    const timer = setTimeout(() =>
+    {
+      containerRef.current?.querySelectorAll('.skill-fill').forEach(el =>
+      {
         el.classList.add('animated')
       })
     }, 80)
@@ -112,9 +116,41 @@ export default function SkillsWindow() {
         ))}
       </div>
 
+      {/* Languages */}
+      <div style={{ marginTop: 20 }}>
+        <div style={{ fontSize: 11, fontWeight: 600, color: textFaint, textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: 12 }}>
+          Languages
+        </div>
+        <div style={{ display: 'flex', gap: 10 }}>
+          {[
+            { lang: 'Mandarin', level: 'Native', pct: 1.0 },
+            { lang: 'English', level: 'Fluent', pct: 0.92 },
+            { lang: 'Danish', level: 'Intermediate', pct: 0.55 },
+          ].map(l => (
+            <div key={l.lang} style={{
+              flex: 1, background: surface, border: `1px solid ${border}`,
+              borderRadius: 12, padding: 12, textAlign: 'center',
+            }}>
+              <div style={{ fontSize: 13, fontWeight: 600, color: text }}>{l.lang}</div>
+              <div style={{ fontSize: 10.5, color: textFaint, margin: '3px 0 8px' }}>{l.level}</div>
+              <div style={{ height: 6, background: border, borderRadius: 99, overflow: 'hidden' }}>
+                <div style={{
+                  height: '100%', borderRadius: 99,
+                  background: 'linear-gradient(90deg, #63a0ff, #a78bfa)',
+                  width: `${l.pct * 100}%`,
+                }} />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* Certification */}
+      <div style={{ fontSize: 11, fontWeight: 600, color: textFaint, textTransform: 'uppercase', letterSpacing: '0.8px', marginTop: 16 }}>
+        Certifications
+      </div>
       <div style={{
-        marginTop: 20,
+        marginTop: 10,
         background: 'rgba(251,191,36,0.08)',
         border: '1px solid rgba(251,191,36,0.25)',
         borderRadius: 12, padding: '12px 16px',
@@ -126,6 +162,8 @@ export default function SkillsWindow() {
           <div style={{ fontSize: 11, color: textFaint, marginTop: 2 }}>Amazon Web Services</div>
         </div>
       </div>
+
+
     </div>
   )
 }
