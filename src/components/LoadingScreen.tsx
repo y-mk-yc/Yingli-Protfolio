@@ -71,7 +71,7 @@ export default function LoadingScreen({ onDone }: Props)
           height: '100%',
           background: 'rgba(255,255,255,0.85)',
           borderRadius: 2,
-          width: phase === 'ready' || phase === 'out' ? '100%' : '80%',
+          width: phase === 'ready' || phase === 'out' ? '100%' : '60%',
           transition: phase === 'loading'
             ? 'width 1.2s cubic-bezier(0.4, 0, 0.2, 1)'
             : 'width 0.25s ease-out',
